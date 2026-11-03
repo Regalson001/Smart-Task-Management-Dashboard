@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A responsive task management dashboard for organizing projects, tracking priorities, and managing daily work.">
+  <title>TaskFlow | Smart Task Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="TaskFlow home">
+        <span class="brand-mark">T</span>
+        <span>taskflow<span class="brand-dot">.</span></span>
+      </a>
+
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview"><span>▦</span> Overview</a>
+        <a class="nav-link" href="#task-board"><span>☷</span> My Tasks <span class="nav-count" id="navTaskCount">0</span></a>
+        <a class="nav-link" href="#projects"><span>▣</span> Projects</a>
+      </nav>
+
+      <p class="nav-label">YOUR SPACE</p>
+      <div class="workspace-card">
+        <span class="workspace-icon">✦</span>
+        <div>
+          <strong>Personal workspace</strong>
+          <small>Free plan</small>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="profile-avatar">SO</div>
+        <div class="profile-info">
+          <strong>Stephen Oyugi</strong>
+          <small>Workspace owner</small>
+        </div>
+        <span class="profile-menu">•••</span>
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <button class="menu-button" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> Overview</div>
+        <div class="topbar-right">
+          <span class="today-label" id="todayLabel"></span>
+          <div class="top-avatar" aria-label="Stephen Oyugi">SO</div>
+        </div>
+      </header>
+
+      <section class="welcome-section">
+        <div>
+          <p class="eyebrow">YOUR PRODUCTIVITY SPACE</p>
+          <h1>Good work starts with <span>clear priorities.</span></h1>
+          <p class="welcome-copy">Keep your plans organized, stay focused, and make progress one task at a time.</p>
+        </div>
+        <button class="primary-button" id="openTaskModal"><span>＋</span> Add new task</button>
+      </section>
+
+      <section class="stats-grid" aria-label="Task statistics">
+        <article class="stat-card">
+          <div class="stat-top"><span>Total tasks</span><span class="stat-icon purple">☷</span></div>
+          <strong class="stat-number" id="totalTasks">0</strong>
+          <p>All tasks in your workspace</p>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>In progress</span><span class="stat-icon blue">◷</span></div>
+          <strong class="stat-number" id="progressTasks">0</strong>
+          <p>Work currently underway</p>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Completed</span><span class="stat-icon green">✓</span></div>
+          <strong class="stat-number" id="completedTasks">0</strong>
+          <p>Tasks finished successfully</p>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>High priority</span><span class="stat-icon orange">↗</span></div>
+          <strong class="stat-number" id="highTasks">0</strong>
+          <p>Items that need attention</p>
+        </article>
+      </section>
+
+      <section class="board-section" id="task-board">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">STAY ON TRACK</p>
+            <h2>Your task board</h2>
+          </div>
+          <div class="board-controls">
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input id="searchInput" type="search" placeholder="Search tasks..." aria-label="Search tasks">
+            </label>
+            <select id="priorityFilter" aria-label="Filter by priority">
+              <option value="all">All priorities</option>
+              <option value="High">High priority</option>
+              <option value="Medium">Medium priority</option>
+              <option value="Low">Low priority</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="board-grid">
+          <section class="task-column" data-status="To do">
+            <div class="column-heading">
+              <div><span class="status-dot todo-dot"></span><h3>To do</h3><span class="column-count" id="todoCount">0</span></div>
+              <button class="column-add" data-add-status="To do" aria-label="Add task to To do">＋</button>
+            </div>
+            <div class="task-list" id="todoList"></div>
+          </section>
+
+          <section class="task-column" data-status="In progress">
+            <div class="column-heading">
+              <div><span class="status-dot progress-dot"></span><h3>In progress</h3><span class="column-count" id="progressCount">0</span></div>
+              <button class="column-add" data-add-status="In progress" aria-label="Add task in progress">＋</button>
+            </div>
+            <div class="task-list" id="progressList"></div>
+          </section>
+
+          <section class="task-column" data-status="Completed">
+            <div class="column-heading">
+              <div><span class="status-dot completed-dot"></span><h3>Completed</h3><span class="column-count" id="completedCount">0</span></div>
+              <button class="column-add" data-add-status="Completed" aria-label="Add completed task">＋</button>
+            </div>
+            <div class="task-list" id="completedList"></div>
+          </section>
+        </div>
+        <p class="board-note">Your tasks are saved in this browser. This demo does not sync across devices.</p>
+      </section>
+
+      <section class="projects-section" id="projects">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">BIG PICTURE</p>
+            <h2>Project focus</h2>
+          </div>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-icon project-purple">✳</div>
+            <div class="project-title-row"><h3>Portfolio Website</h3><span class="project-status">Active</span></div>
+            <p>Build and refine a professional developer portfolio.</p>
+            <div class="progress-meta"><span>Progress</span><strong>65%</strong></div>
+            <div class="progress-track"><span style="width:65%"></span></div>
+          </article>
+          <article class="project-card">
+            <div class="project-icon project-blue">⌘</div>
+            <div class="project-title-row"><h3>PromptFlow AI Studio</h3><span class="project-status">Active</span></div>
+            <p>Design an interface for building and previewing AI prompts.</p>
+            <div class="progress-meta"><span>Progress</span><strong>40%</strong></div>
+            <div class="progress-track blue-track"><span style="width:40%"></span></div>
+          </article>
+          <article class="project-card">
+            <div class="project-icon project-orange">◇</div>
+            <div class="project-title-row"><h3>Machine Learning Lab</h3><span class="project-status">Planned</span></div>
+            <p>Organize small data science and machine learning projects.</p>
+            <div class="progress-meta"><span>Progress</span><strong>20%</strong></div>
+            <div class="progress-track orange-track"><span style="width:20%"></span></div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>TaskFlow · Personal productivity dashboard</span>
+        <span>Designed and built by Stephen Oyugi</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="task-dialog" id="taskDialog" aria-labelledby="dialogTitle">
+    <form id="taskForm">
+      <div class="dialog-header">
+        <div><p class="eyebrow">WORKSPACE</p><h2 id="dialogTitle">Create a task</h2></div>
+        <button class="dialog-close" type="button" id="closeTaskModal" aria-label="Close dialog">×</button>
+      </div>
+
+      <label for="taskTitle">Task title <span>*</span></label>
+      <input id="taskTitle" name="title" type="text" maxlength="100" placeholder="e.g. Finish the landing page" required>
+
+      <label for="taskDescription">Description</label>
+      <textarea id="taskDescription" name="description" rows="3" maxlength="300" placeholder="What needs to be done?"></textarea>
+
+      <div class="form-row">
+        <div><label for="taskPriority">Priority</label>
+          <select id="taskPriority" name="priority">
+            <option>Medium</option><option>High</option><option>Low</option>
+          </select>
+        </div>
+        <div><label for="taskStatus">Status</label>
+          <select id="taskStatus" name="status">
+            <option>To do</option><option>In progress</option><option>Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="taskDueDate">Due date</label>
+      <input id="taskDueDate" name="dueDate" type="date">
+
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" id="cancelTask">Cancel</button>
+        <button type="submit" class="primary-button">Save task</button>
+      </div>
+      <p class="form-error" id="formError" role="alert"></p>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
